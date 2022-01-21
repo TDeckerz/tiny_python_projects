@@ -1,0 +1,47 @@
+  #!/usr/bin/env python3
+"""
+Author : Anonymous <Anonymous@localhost>
+Date   : 2022-01-20
+Purpose: Crows Nest mini project
+My attempt
+"""
+
+import argparse
+
+
+# --------------------------------------------------
+def get_args():
+    """Get command-line arguments"""
+
+    parser = argparse.ArgumentParser(
+        description='Signals objects to the captain',
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+
+
+    parser.add_argument('-o',
+                        '--object',
+                        help='Object seen by crow\'s nest',
+                        metavar='object',
+                        type=str,
+                        default='duck')
+
+    return parser.parse_args()
+
+
+# --------------------------------------------------
+def main():
+    """Make a jazz noise here"""
+
+    args = get_args()
+    object_spotted = args.object
+    
+    match object_spotted[0]:
+        case 'a'|'e'|'i'|'o'|'u':
+            print('Ahoy, Captain, an' + args.object + ' off the larboard bow!')
+        case _:
+            print('Ahoy, Captain, a ' + args.object + ' off the larboard bow!')
+
+
+# --------------------------------------------------
+if __name__ == '__main__':
+    main()
