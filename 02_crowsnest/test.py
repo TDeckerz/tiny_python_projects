@@ -5,6 +5,8 @@ import os
 from subprocess import getstatusoutput, getoutput
 
 prg = '.\crowsnest.py'
+
+
 consonant_words = [
     'brigantine', 'clipper', 'dreadnought', 'frigate', 'galleon', 'haddock',
     'junk', 'ketch', 'longboat', 'mullet', 'narwhal', 'porpoise', 'quay',
@@ -13,6 +15,7 @@ consonant_words = [
 ]
 vowel_words = ['aviso', 'eel', 'iceberg', 'octopus', 'upbound']
 template = 'Ahoy, Captain, {} {} off the larboard bow!'
+side_check = 'Ahoy, Captain, {} {} off the {} bow!'
 
 
 # --------------------------------------------------
@@ -61,8 +64,38 @@ def test_vowel():
 
 # --------------------------------------------------
 def test_vowel_upper():
-    """octopus -> an Octopus"""
+    """OCTOPUS -> an OCTOPUS"""
 
     for word in vowel_words:
         out = getoutput(f'{prg} {word.upper()}')
         assert out.strip() == template.format('an', word.upper())
+
+
+# --------------------------------------------------
+def test_consonant_case():
+    """Octopus -> An Octopus"""
+
+    case_flag = '-c'
+    for word in consonant_words:
+        out = getoutput(f'{prg} {word.title()} {case_flag}')
+        assert out.strip() == template.format('A', word.title())
+
+
+# --------------------------------------------------
+def test_vowel_case():
+    """Octopus -> An Octopus"""
+
+    case_flag = '-c'
+    for word in vowel_words:
+        out = getoutput(f'{prg} {word.title()} {case_flag}')
+        assert out.strip() == template.format('An', word.title())
+
+
+# --------------------------------------------------
+def test_starboard_case():
+    """larboard -> starboard"""
+
+    for word in consonant_words:
+        for f in ['-s', '--starboard']:
+            out = getoutput(f'{prg} {word} {f}')
+            assert out.strip() == side_check.format('a', word, 'starboard')
