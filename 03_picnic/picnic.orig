@@ -1,0 +1,68 @@
+#!/usr/bin/env python3
+"""
+Author : Anonymous <Anonymous@localhost>
+Date   : 2022-01-24
+Purpose: Rock the Casbah
+"""
+
+import argparse
+
+
+# --------------------------------------------------
+def get_args():
+    """Get command-line arguments"""
+
+    parser = argparse.ArgumentParser(
+        description='Prepares a picnic basket',
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+
+    parser.add_argument('items',
+                        metavar='items',
+                        nargs='+',
+                        help='Items we are bringing')
+
+    parser.add_argument('-s',
+                        '--sorted',
+                        help='Sort the items',
+                        action='store_true')
+
+    return parser.parse_args()
+
+
+# --------------------------------------------------
+def main():
+    """Make a jazz noise here"""
+
+    args = get_args()
+    items = args.items
+    items_sz = len(items)
+    
+    
+    # If the sorted flag was used, sort the list.
+    if args.sorted:
+        items.sort()
+    
+    # The opening of the sentence never changes, so it can be printed immediately.
+    print("You are bringing", end=" ")
+    
+    # If there is only one items, print it and a period.
+    if len(items) == 1:
+        print(items[0] + ".")
+    # If there are two items, print them and a period.
+    elif len(items) == 2:
+        print(items[0] + " and " + items[1] + ".")
+    # 3 or more items requires a bit of navigation.
+    else:
+        # We know that the every element except the last is identical: "[item], "
+        # The last item breaks this convention. It is preceded by "and " and is followed by "."
+        # So for an array of size n, iterate through n-1 and print them in the first format.
+        # The last one is concatenated with the "and" and "."
+        for i in range(items_sz - 1):
+            print(items[i], end=', ')
+        print("and " + items[items_sz-1] + ".")
+        
+
+
+# --------------------------------------------------
+if __name__ == '__main__':
+    main()
