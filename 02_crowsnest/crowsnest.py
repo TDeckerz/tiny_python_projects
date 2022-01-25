@@ -30,6 +30,7 @@ def get_args():
                         '--starboard',
                         help='Notifes starboard side',
                         action='store_true')
+                        
     return parser.parse_args()
 
 
